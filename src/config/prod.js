@@ -1,3 +1,3 @@
 module.exports = {
-    tastediveKey: process.env.TASTEDIVE_KEY
-};  
+  tastediveKey: process.env.TASTEDIVE_KEY,
+};

@@ -10,30 +10,27 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // just for booting app on heroku, to avoid delay/500 on the first request
-app.get('/boot', (req, res) => {
-    console.log('booting!')
+app.get('/boot', () => {
+  console.log('booting!'); // eslint-disable-line
 });
 
 app.post('/recommend', (req, res) => {
-    const titles = req.body.titles.map(title => encodeURI(title));
-    const { type } = req.body;
+  const titles = req.body.titles.map(title => encodeURI(title));
+  const { type } = req.body;
 
-    axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${titles[0]}%2C${titles[1]}&%2C${titles[2]}&k=${keys.tastediveKey}`)
-        .then(results => {
-            const recomendations = results.data.Similar.Results;
-            if (recomendations.length === 0) {
-                console.log(res.body)
-                return res.status(404).send({message: 'No recommendations found!'});
-            }
-            return res.send(recomendations);
-        })
-        .catch(err => {
-            return res.status(500).send(err.message);
-        });
+  axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${titles[0]}%2C${titles[1]}&%2C${titles[2]}&k=${keys.tastediveKey}`)
+    .then((results) => {
+      const recomendations = results.data.Similar.Results;
+      if (recomendations.length === 0) {
+        return res.status(404).send({ message: 'No recommendations found!' });
+      }
+      return res.send(recomendations);
+    })
+    .catch(err => res.status(500).send(err.message));
 });
 
 app.listen(PORT, () => {
-    console.log('Up and running on ' + PORT);
+  console.log(`Up and running on ${PORT}`); // eslint-disable-line
 });
 
 module.exports = app;
