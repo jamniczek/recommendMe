@@ -18,11 +18,11 @@ class ListElement {
     }
 };
 
-const testResponse = {
-    payload: {
-        facebook: recommendations
-    }
-}
+// const testResponse = {
+//     payload: {
+//         facebook: recommendations
+//     }
+// }
 
 // "payload": {
 //     "template_type": "list",
