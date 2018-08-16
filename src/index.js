@@ -17,7 +17,11 @@ app.get('/boot', () => {
 });
 
 app.post('/dialogflow/recommend', (req, res) => {  
-  // const titles = _.values(req.body.queryResult.parameters).map(title => encodeURI(title));
+  const testResponse = {
+    payload: {
+        facebook: recommendations
+    }
+}
   const item1 = encodeURI(req.body.queryResult.parameters.item1);
   const item2 = encodeURI(req.body.queryResult.parameters.item2);
   const item3 = encodeURI(req.body.queryResult.parameters.item3)
@@ -31,7 +35,7 @@ app.post('/dialogflow/recommend', (req, res) => {
       if (recomendations.length === 0) {
         return res.status(404).send({ message: 'No recommendations found!' });
       }
-      return res.send(templates.testResponse);
+      return res.send(testResponse);
     })
     .catch(err => res.status(500).send(err.message));
 });
