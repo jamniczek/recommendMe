@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const templates = require('./templates')
+const templates = require('./templates/templates')
 
 const keys = require('./config/keys');
 
