@@ -17,12 +17,15 @@ app.get('/boot', () => {
 });
 
 app.post('/dialogflow/recommend', (req, res) => {  
-  const titles = _.values(req.body.queryResult.parameters).map(title => encodeURI(title));
+  // const titles = _.values(req.body.queryResult.parameters).map(title => encodeURI(title));
+  const item1 = encodeURI(req.body.queryResult.parameters.item1);
+  const item2 = encodeURI(req.body.queryResult.parameters.item2);
+  const item3 = encodeURI(req.body.queryResult.parameters.item3)
   console.log(titles)
   const type = req.body.queryResult.parameters.category;
 
 
-  axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${titles[0]}%2C${titles[1]}&%2C${titles[2]}&k=${keys.tastediveKey}`)
+  axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${item1}%2C${item2}&%2C${item3}&k=${keys.tastediveKey}`)
     .then((results) => {
       const recomendations = results.data.Similar.Results;
       if (recomendations.length === 0) {
