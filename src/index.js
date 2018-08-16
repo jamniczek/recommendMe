@@ -27,7 +27,7 @@ app.post('/dialogflow/recommend', (req, res) => {
 
   axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${item1}%2C${item2}&%2C${item3}&k=${keys.tastediveKey}`)
     .then((results) => {
-      const recomendations = results.data.Similar.Results;
+      const recommendations = results.data.Similar.Results;
       const testResponse = {
         payload: {
             facebook: recommendations
