@@ -21,7 +21,7 @@ app.post('/dialogflow/recommend', (req, res) => {
   const item1 = encodeURI(req.body.queryResult.parameters.item1);
   const item2 = encodeURI(req.body.queryResult.parameters.item2);
   const item3 = encodeURI(req.body.queryResult.parameters.item3)
-  console.log(titles)
+  console.log(item1, item2, item3)
   const type = req.body.queryResult.parameters.category;
 
 
