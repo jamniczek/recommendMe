@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const _ = require('lodash');
-const templates = require('./templates/templates')
+const templates = require('./templates/templates');
+
+
 
 const keys = require('./config/keys');
 
