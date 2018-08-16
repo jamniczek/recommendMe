@@ -16,6 +16,12 @@ class ListElement {
         this.buttons = [];
         
     }
+};
+
+const testResponse = {
+    payload: {
+        facebook: recommendations
+    }
 }
 
 // "payload": {
