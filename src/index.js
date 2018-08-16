@@ -38,21 +38,6 @@ app.post('/dialogflow/recommend', (req, res) => {
       if (recommendations.length === 0) {
         return res.status(404).send({ message: 'No recommendations found!' });
       }
-      return res.send(testResponse);
-    })
-    .catch(err => res.status(500).send(err.message));
-});
-
-app.post('/recommend', (req, res) => {
-  const titles = req.body.titles.map(title => encodeURI(title));
-  const { type } = req.body;
-
-  axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${titles[0]}%2C${titles[1]}&%2C${titles[2]}&k=${keys.tastediveKey}`)
-    .then((results) => {
-      const recomendations = results.data.Similar.Results;
-      if (recomendations.length === 0) {
-        return res.status(404).send({ message: 'No recommendations found!' });
-      }
       return res.send({"facebook": {"message":{
         "attachment":{
           "type":"template",
@@ -88,11 +73,26 @@ app.post('/recommend', (req, res) => {
     .catch(err => res.status(500).send(err.message));
 });
 
+app.post('/recommend', (req, res) => {
+  const titles = req.body.titles.map(title => encodeURI(title));
+  const { type } = req.body;
+
+  axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${titles[0]}%2C${titles[1]}&%2C${titles[2]}&k=${keys.tastediveKey}`)
+    .then((results) => {
+      const recomendations = results.data.Similar.Results;
+      if (recomendations.length === 0) {
+        return res.status(404).send({ message: 'No recommendations found!' });
+      }
+      return res.send({recomendations});
+    })
+    .catch(err => res.status(500).send(err.message));
+});
+
 app.listen(PORT);
 
 module.exports = app;
 
-// {"message":{
+//{"message":{
 //   "attachment":{
 //     "type":"template",
 //     "payload":{
