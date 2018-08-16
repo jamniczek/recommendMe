@@ -33,7 +33,7 @@ app.post('/dialogflow/recommend', (req, res) => {
             facebook: recommendations
         }
     }
-      if (recomendations.length === 0) {
+      if (recommendations.length === 0) {
         return res.status(404).send({ message: 'No recommendations found!' });
       }
       return res.send(testResponse);
