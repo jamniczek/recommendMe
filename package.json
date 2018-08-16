@@ -6,7 +6,7 @@
   "author": "Maciej Misiak <misiak.mac@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "mocha **/*.test.js --exit"
+    "test": "mocha **/*.test.js --exit --timeout 5000"
   },
   "dependencies": {
     "axios": "^0.18.0",

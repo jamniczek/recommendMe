@@ -18,8 +18,10 @@ describe('POST /recommend - games', () => {
       })
       .end(done);
   });
+});
 
-  it('should return 404 nothing found', (done) => {
+describe('POST /recommend -404', () => {
+    it('should return 404 nothing found', (done) => {
     request(app)
       .post('/recommend')
       .send(mocks.noResultsRequest)

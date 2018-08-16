@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 // just for booting app on heroku, to avoid delay/500 on the first request
 app.get('/boot', () => {
-  console.log('booting!'); // eslint-disable-line
+
 });
 
 app.post('/recommend', (req, res) => {
@@ -22,15 +22,13 @@ app.post('/recommend', (req, res) => {
     .then((results) => {
       const recomendations = results.data.Similar.Results;
       if (recomendations.length === 0) {
-        return res.status(404).send({ message: 'No recommendations found!' });
+        return res.status(200).send({ message: 'No recommendations found!' });
       }
       return res.send(recomendations);
     })
     .catch(err => res.status(500).send(err.message));
 });
 
-app.listen(PORT, () => {
-  console.log(`Up and running on ${PORT}`); // eslint-disable-line
-});
+app.listen(PORT);
 
 module.exports = app;
