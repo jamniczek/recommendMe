@@ -17,11 +17,7 @@ app.get('/boot', () => {
 });
 
 app.post('/dialogflow/recommend', (req, res) => {  
-  const testResponse = {
-    payload: {
-        facebook: recommendations
-    }
-}
+
   const item1 = encodeURI(req.body.queryResult.parameters.item1);
   const item2 = encodeURI(req.body.queryResult.parameters.item2);
   const item3 = encodeURI(req.body.queryResult.parameters.item3)
@@ -32,6 +28,11 @@ app.post('/dialogflow/recommend', (req, res) => {
   axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${item1}%2C${item2}&%2C${item3}&k=${keys.tastediveKey}`)
     .then((results) => {
       const recomendations = results.data.Similar.Results;
+      const testResponse = {
+        payload: {
+            facebook: recommendations
+        }
+    }
       if (recomendations.length === 0) {
         return res.status(404).send({ message: 'No recommendations found!' });
       }
