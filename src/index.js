@@ -22,7 +22,7 @@ app.post('/recommend', (req, res) => {
     .then((results) => {
       const recomendations = results.data.Similar.Results;
       if (recomendations.length === 0) {
-        return res.status(200).send({ message: 'No recommendations found!' });
+        return res.status(404).send({ message: 'No recommendations found!' });
       }
       return res.send(recomendations);
     })
