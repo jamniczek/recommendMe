@@ -38,7 +38,7 @@ app.post('/dialogflow/recommend', (req, res) => {
       if (recommendations.length === 0) {
         return res.status(404).send({ message: 'No recommendations found!' });
       }
-      return res.send({"facebook": {"message":{
+      return res.send(JSON.parse({"facebook": {"message":{
         "attachment":{
           "type":"template",
           "payload":{
@@ -68,7 +68,7 @@ app.post('/dialogflow/recommend', (req, res) => {
             ]
           }
         }
-      }}});
+      }}}));
     })
     .catch(err => res.status(500).send(err.message));
 });
