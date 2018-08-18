@@ -4,8 +4,6 @@ const axios = require('axios');
 const _ = require('lodash');
 const templates = require('./templates/templates');
 
-
-
 const keys = require('./config/keys');
 
 const app = express();
@@ -18,7 +16,7 @@ app.get('/boot', () => {
 
 });
 
-app.post('/dialogflow/recommend', (req, res) => {  
+app.post('/dialogflow/recommend', (req, res) => {
 
   const item1 = encodeURI(req.body.queryResult.parameters.item1);
   const item2 = encodeURI(req.body.queryResult.parameters.item2);
@@ -26,49 +24,19 @@ app.post('/dialogflow/recommend', (req, res) => {
   console.log(item1, item2, item3)
   const type = req.body.queryResult.parameters.category;
 
-
   axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${item1}%2C${item2}&%2C${item3}&k=${keys.tastediveKey}`)
     .then((results) => {
       const recommendations = results.data.Similar.Results;
-      const testResponse = {
-        payload: {
-            facebook: recommendations
-        }
-    }
+
       if (recommendations.length === 0) {
         return res.status(404).send({ message: 'No recommendations found!' });
+      } else {
+        const response = { fulfillmentMessages: [] };
+        recommendations.forEach(element => {
+          response.fulfillmentMessages.push(new templates.Card(element.Name, element.wTeaser, element.yUrl))
+        });
+        return res.send(response);
       }
-      return res.send(JSON.parse({"facebook": {"message":{
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"generic",
-            "elements":[
-               {
-                "title":"Welcome!",
-                "image_url":"https://petersfancybrownhats.com/company_image.png",
-                "subtitle":"We have the right hat for everyone.",
-                "default_action": {
-                  "type": "web_url",
-                  "url": "https://petersfancybrownhats.com/view?item=103",
-                  "webview_height_ratio": "tall",
-                },
-                "buttons":[
-                  {
-                    "type":"web_url",
-                    "url":"https://petersfancybrownhats.com",
-                    "title":"View Website"
-                  },{
-                    "type":"postback",
-                    "title":"Start Chatting",
-                    "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                  }              
-                ]      
-              }
-            ]
-          }
-        }
-      }}}));
     })
     .catch(err => res.status(500).send(err.message));
 });
@@ -79,11 +47,20 @@ app.post('/recommend', (req, res) => {
 
   axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${titles[0]}%2C${titles[1]}&%2C${titles[2]}&k=${keys.tastediveKey}`)
     .then((results) => {
-      const recomendations = results.data.Similar.Results;
-      if (recomendations.length === 0) {
+      const recommendations = results.data.Similar.Results;
+      // if (recommendations.length === 0) {
+      //   return res.status(404).send({ message: 'No recommendations found!' });
+      // }
+      // return res.send(recommendations);
+      if (recommendations.length === 0) {
         return res.status(404).send({ message: 'No recommendations found!' });
+      } else {
+        const response = { fulfillmentMessages: [] };
+        recommendations.forEach(element => {
+          response.fulfillmentMessages.push(new templates.Card(element.Name, element.wTeaser, undefined, element.yUrl))
+        });
+        return res.send(response);
       }
-      return res.send({recomendations});
     })
     .catch(err => res.status(500).send(err.message));
 });
@@ -91,35 +68,3 @@ app.post('/recommend', (req, res) => {
 app.listen(PORT);
 
 module.exports = app;
-
-//{"message":{
-//   "attachment":{
-//     "type":"template",
-//     "payload":{
-//       "template_type":"generic",
-//       "elements":[
-//          {
-//           "title":"Welcome!",
-//           "image_url":"https://petersfancybrownhats.com/company_image.png",
-//           "subtitle":"We have the right hat for everyone.",
-//           "default_action": {
-//             "type": "web_url",
-//             "url": "https://petersfancybrownhats.com/view?item=103",
-//             "webview_height_ratio": "tall",
-//           },
-//           "buttons":[
-//             {
-//               "type":"web_url",
-//               "url":"https://petersfancybrownhats.com",
-//               "title":"View Website"
-//             },{
-//               "type":"postback",
-//               "title":"Start Chatting",
-//               "payload":"DEVELOPER_DEFINED_PAYLOAD"
-//             }              
-//           ]      
-//         }
-//       ]
-//     }
-//   }
-// }}
