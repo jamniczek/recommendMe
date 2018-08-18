@@ -48,19 +48,10 @@ app.post('/recommend', (req, res) => {
   axios.get(`https://tastedive.com/api/similar?info=1&type=${type}&limit=5&q=${titles[0]}%2C${titles[1]}&%2C${titles[2]}&k=${keys.tastediveKey}`)
     .then((results) => {
       const recommendations = results.data.Similar.Results;
-      // if (recommendations.length === 0) {
-      //   return res.status(404).send({ message: 'No recommendations found!' });
-      // }
-      // return res.send(recommendations);
       if (recommendations.length === 0) {
         return res.status(404).send({ message: 'No recommendations found!' });
-      } else {
-        const response = { fulfillmentMessages: [] };
-        recommendations.forEach(element => {
-          response.fulfillmentMessages.push(new templates.Card(element.Name, element.wTeaser, undefined, element.yUrl))
-        });
-        return res.send(response);
       }
+      return res.send(recommendations);
     })
     .catch(err => res.status(500).send(err.message));
 });
