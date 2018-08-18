@@ -25,12 +25,12 @@ class Button {
 }
 
 class Card {
-    constructor(title, subtitle ,imgURL = 'http://sarigowns.com/wp-content/uploads/2017/04/pojo-placeholder-1024x768.png', infoURL) {
+    constructor(title, subtitle ,imageUri = 'http://sarigowns.com/wp-content/uploads/2017/04/pojo-placeholder-1024x768.png', infoURL) {
         this.platform = 'FACEBOOK'
         this.card = {
             title: title,
             subtitle: subtitle,
-            imgURL: imgURL,
+            imageUri: imageUri,
             buttons: [new Button(infoURL)]
         }
     }
