@@ -33,7 +33,7 @@ app.post('/dialogflow/recommend', (req, res) => {
       } else {
         const response = { fulfillmentMessages: [] };
         recommendations.forEach(element => {
-          response.fulfillmentMessages.push(new templates.Card(element.Name, element.wTeaser, element.yUrl))
+          response.fulfillmentMessages.push(new templates.Card(element.Name, element.wTeaser, undefined, element.yUrl))
         });
         return res.send(response);
       }
